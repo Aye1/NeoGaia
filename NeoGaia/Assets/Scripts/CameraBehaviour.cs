@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Assets.Scripts.Helpers;
 
 public class CameraBehaviour : MonoBehaviour {
@@ -68,8 +66,8 @@ public class CameraBehaviour : MonoBehaviour {
 
         _camera = GetComponent<Camera>();
         DontDestroyOnLoad(_camera);
-
         ObjectChecker.CheckNullity(player, "Camera can't find the Player");
+
     }
 
     // Update is called once per frame
