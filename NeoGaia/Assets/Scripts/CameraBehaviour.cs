@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.Helpers;
 
 public class CameraBehaviour : MonoBehaviour {
 
@@ -11,6 +12,11 @@ public class CameraBehaviour : MonoBehaviour {
     private Camera _camera;
     private int _width;
     private int _height;
+
+    public Player player;
+
+    [Header("Debug settings")]
+    public bool displayPosInCamera = false;
 
     #region Accessors
     // Width of the camera
@@ -62,6 +68,8 @@ public class CameraBehaviour : MonoBehaviour {
 
         _camera = GetComponent<Camera>();
         DontDestroyOnLoad(_camera);
+
+        ObjectChecker.CheckNullity(player, "Camera can't find the Player");
     }
 
     // Update is called once per frame
@@ -69,6 +77,41 @@ public class CameraBehaviour : MonoBehaviour {
     {
         Width = Screen.width;
         Height = Screen.height;
+        SmoothFollow();
+    }
+
+    private void SmoothFollow()
+    {
+        Vector3 posInCamera = _camera.WorldToScreenPoint(player.transform.position);
+
+        // Debug only
+        if (displayPosInCamera)
+        {
+            Debug.Log("Pos: " + posInCamera);
+        }
+        
+        // Distance to trigger the camera animation
+        float offsetX = Height*0.4f;
+        float offSetY = Width*0.4f;
+
+        // Offset to have more space above the player than below
+        float floorOffset = 2f;
+
+        // Time of the smooth movement
+        float smoothTime = 0.1f;
+
+        Vector3 camPos = _camera.transform.position;
+        Vector3 destination = camPos;
+        if (posInCamera.y + offSetY >= Height || posInCamera.y - offSetY <= 0)
+        {
+            destination.y = player.transform.position.y + floorOffset;
+        }
+        if (posInCamera.x + offsetX >= Width || posInCamera.x - offsetX <= 0)
+        {
+            destination.x = player.transform.position.x;
+        }
+        Vector3 velocity = Vector3.zero;
+        _camera.transform.position = Vector3.SmoothDamp(camPos, destination, ref velocity, smoothTime);
     }
 
     /// <summary>
