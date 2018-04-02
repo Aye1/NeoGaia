@@ -4,6 +4,7 @@ using UnityEngine;
 public class PNJTest : MonoBehaviour, IInteractable {
 
     public DialogBox dialog;
+    public Sprite picture;
     private bool isDialogOpen;
     private Player _player;
 
@@ -26,7 +27,7 @@ public class PNJTest : MonoBehaviour, IInteractable {
             string[] texts = { "Bien ouej, tu es capable d'interagir avec un PNJ!"
                     , "Ceci est ma seconde phrase"
                     , "Et maintenant tu peux sauter 10 fois, parce que c'est comme ça"};
-            newDialog.Init(texts);
+            newDialog.Init(texts, picture);
             isDialogOpen = true;
             newDialog.dialogClosing += DialogClosed;
         }
