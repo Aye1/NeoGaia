@@ -31,7 +31,6 @@ public class PlayerMovement : MonoBehaviour {
     private void UpdateJumpsAvailable()
     {
         maxJumpsAvailable = _player.has10Jumps ? 10 : 1;
-        jumpsAvailable = maxJumpsAvailable;
     }
 
     private void ManageInputs()
