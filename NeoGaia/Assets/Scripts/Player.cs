@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Player : MonoBehaviour {
+public class Player : Character {
 
     public bool has10Jumps = false;
+    public Sprite dialogPicture;
 
 	// Use this for initialization
 	void Start () {

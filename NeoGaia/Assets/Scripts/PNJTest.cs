@@ -1,10 +1,9 @@
 ﻿using System;
 using UnityEngine;
 
-public class PNJTest : MonoBehaviour, IInteractable {
+public class PNJTest : Character, IInteractable {
 
     public DialogBox dialog;
-    public Sprite picture;
     private bool isDialogOpen;
     private Player _player;
 
@@ -24,9 +23,10 @@ public class PNJTest : MonoBehaviour, IInteractable {
         if (!isDialogOpen)
         {
             DialogBox newDialog = Instantiate(dialog);
-            string[] texts = { "Bien ouej, tu es capable d'interagir avec un PNJ!"
-                    , "Ceci est ma seconde phrase"
-                    , "Et maintenant tu peux sauter 10 fois, parce que c'est comme ça"};
+
+            DialogLine[] texts = { new DialogLine("Bien ouej, tu es capable d'interagir avec un PNJ!", this)
+                    , new DialogLine("Je peux répondre !", _player)
+                    , new DialogLine("Et maintenant tu peux sauter 10 fois, parce que c'est comme ça", this)};
             newDialog.Init(texts, picture);
             isDialogOpen = true;
             newDialog.dialogClosing += DialogClosed;

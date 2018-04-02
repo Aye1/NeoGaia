@@ -8,11 +8,12 @@ public class DialogBox : MonoBehaviour {
 
     public TextMeshPro textMesh;
     public Image characterImage;
+    public Sprite defaultSprite;
     
     private string _currentText;
     private string _remainingText;
-    private string[] _allTexts;
-    private string _fullText;
+    private DialogLine[] _allDialogLines;
+    private DialogLine _currentDialogLine;
     private int _textId;
 
     public bool displayTextFinished;
@@ -31,11 +32,10 @@ public class DialogBox : MonoBehaviour {
         ManageInput();
 	}
 
-    public void Init(string[] text, Sprite sprite)
+    public void Init(DialogLine[] text, Sprite sprite)
     {
-        characterImage.sprite = sprite;
         textMesh.text = "";
-        _allTexts = text;
+        _allDialogLines = text;
         allTextsDisplayed = false;
         StartDisplayingText();
     }
@@ -43,28 +43,32 @@ public class DialogBox : MonoBehaviour {
     private void StartDisplayingText()
     {
         _textId = 0;
-        PrepareVariablesForNewText();
-        StartCoroutine(DisplaySingleTextLetterByLetter());
+        DisplayLine();
     }
 
-    private void DisplayNextText()
+    private void DisplayNextLine()
     {
         _textId++;
-        PrepareVariablesForNewText();
-        StartCoroutine(DisplaySingleTextLetterByLetter());
+        DisplayLine();
     }
 
-    private void PrepareVariablesForNewText()
+    private void DisplayLine()
+    {
+        PrepareVariablesForNewLine();
+        StartCoroutine(DisplayLineLetterByLetter());
+    }
+
+    private void PrepareVariablesForNewLine()
     {
         _currentText = "";
-        _remainingText = _allTexts[_textId];
-        _fullText = _allTexts[_textId];
+        _remainingText = _allDialogLines[_textId].text;
+        _currentDialogLine = _allDialogLines[_textId];
         displayTextFinished = false;
     }
 
-    private void DisplayNextTextOrClose()
+    private void DisplayNextLineOrClose()
     {
-        if (_textId == _allTexts.Length - 1)
+        if (_textId == _allDialogLines.Length - 1)
         {
             // All texts displayed, close DialogBox
             allTextsDisplayed = true;
@@ -73,19 +77,19 @@ public class DialogBox : MonoBehaviour {
         else
         {
             // There are other texts remaining
-            DisplayNextText();
+            DisplayNextLine();
         }
     }
 
-    private IEnumerator DisplaySingleTextLetterByLetter()
+    private IEnumerator DisplayLineLetterByLetter()
     {
+        ChangePicture();
         float timeBetweenLetters = 0.05f;
-        Debug.Log("Coroutine");
         while (!displayTextFinished)
         {
             string firstLetter = _remainingText.Substring(0, 1);
             _currentText = _currentText + firstLetter;
-            if (_currentText == _fullText)
+            if (_currentText == _currentDialogLine.text)
             {
                 displayTextFinished = true;
             }
@@ -98,9 +102,26 @@ public class DialogBox : MonoBehaviour {
         }
     }
 
+    private void ChangePicture()
+    {
+        if (_currentDialogLine.character == null)
+        {
+            characterImage.sprite = defaultSprite;
+
+        }
+        else
+        {
+            characterImage.sprite = _currentDialogLine.character.picture;
+        }
+
+    }
+
+    /// <summary>
+    /// Forces the display of the whole line (for impatient players)
+    /// </summary>
     private void FastEndCurrentText()
     {
-        _currentText = _fullText;
+        _currentText = _currentDialogLine.text;
         _remainingText = "";
         textMesh.text = _currentText;
         displayTextFinished = true;
@@ -113,7 +134,7 @@ public class DialogBox : MonoBehaviour {
         {
             if (displayTextFinished)
             {
-                DisplayNextTextOrClose();
+                DisplayNextLineOrClose();
             } else
             {
                 FastEndCurrentText();
