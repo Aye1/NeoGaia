@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Helpers;
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -9,7 +10,8 @@ public class DialogBox : MonoBehaviour {
     public TextMeshPro textMesh;
     public Image characterImage;
     public Sprite defaultSprite;
-    
+
+    private AudioSource _dialogSound;
     private string _currentText;
     private string _remainingText;
     private DialogLine[] _allDialogLines;
@@ -20,6 +22,13 @@ public class DialogBox : MonoBehaviour {
     public bool allTextsDisplayed;
 
     public event EventHandler dialogClosing;
+
+    // Runs before the Start()
+    void Awake ()
+    {
+        _dialogSound = GetComponent<AudioSource>();
+        ObjectChecker.CheckNullity(_dialogSound, "Dialog sound not found");
+    }
 
 	// Use this for initialization
 	void Start () {
@@ -98,6 +107,7 @@ public class DialogBox : MonoBehaviour {
                 _remainingText = _remainingText.Substring(1);
             }
             textMesh.text = _currentText;
+            _dialogSound.PlayOneShot(_dialogSound.clip, 0.5f);
             yield return new WaitForSeconds(timeBetweenLetters);
         }
     }

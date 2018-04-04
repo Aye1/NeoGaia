@@ -95,9 +95,6 @@ public class CameraBehaviour : MonoBehaviour {
         // Offset to have more space above the player than below
         float floorOffset = 2f;
 
-        // Time of the smooth movement
-        float smoothTime = 0.1f;
-
         Vector3 camPos = _camera.transform.position;
         Vector3 destination = camPos;
         if (posInCamera.y + offSetY >= Height || posInCamera.y - offSetY <= 0)
@@ -109,7 +106,27 @@ public class CameraBehaviour : MonoBehaviour {
             destination.x = player.transform.position.x;
         }
         Vector3 velocity = Vector3.zero;
-        _camera.transform.position = Vector3.SmoothDamp(camPos, destination, ref velocity, smoothTime);
+        _camera.transform.position = Vector3.SmoothDamp(camPos, destination, ref velocity, getSmoothTime(posInCamera));
+    }
+
+    private float getSmoothTime(Vector3 posInCamera)
+    {
+        float defaultSmoothTime = 0.2f;
+        float fastSmoothTime = 0.01f;
+        //float velocityThreshold = 20.0f;
+
+        /*Debug.Log("velocity:" + player.GetComponent<Rigidbody2D>().velocity.y);
+
+        if (posInCamera.y >= Height || posInCamera.y <= 0)
+        {
+            return fastSmoothTime;
+        }*/
+
+        /*if (Mathf.Abs(player.GetComponent<Rigidbody2D>().velocity.y) >= velocityThreshold)
+        {
+            return fastSmoothTime;
+        }*/
+        return defaultSmoothTime;
     }
 
     /// <summary>

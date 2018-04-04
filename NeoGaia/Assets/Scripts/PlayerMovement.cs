@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour {
     //public bool grounded = true;
     public int maxJumpsAvailable = 1;
     public int jumpsAvailable = 1;
+    public float maxVelocity = 18.0f;
 
     private IInteractable _currentInteractable = null;
 
@@ -38,6 +39,7 @@ public class PlayerMovement : MonoBehaviour {
         ManageMove();
         ManageJump();
         ManageInteraction();
+        LimitVelocity();
     }
 
     private void ManageMove()
@@ -106,6 +108,15 @@ public class PlayerMovement : MonoBehaviour {
         {
             Debug.Log("Can't interact anymore");
             _currentInteractable = null;
+        }
+    }
+
+    public void LimitVelocity()
+    {
+        if(Mathf.Abs(_body.velocity.y) > maxVelocity)
+        {
+            float sign = Mathf.Abs(_body.velocity.y) / _body.velocity.y;
+            _body.velocity = new Vector2(_body.velocity.x, sign * maxVelocity) ;
         }
     }
 }
