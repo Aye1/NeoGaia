@@ -52,6 +52,7 @@ public class DialogBox : MonoBehaviour {
     private void StartDisplayingText()
     {
         _textId = 0;
+        GameManager.instance.FreezGameButDialogs();
         DisplayLine();
     }
 
@@ -154,6 +155,7 @@ public class DialogBox : MonoBehaviour {
 
     private void CloseDialog()
     {
+        GameManager.instance.EndFreezeGameButDialogs();
         EventHandler handler = dialogClosing;
         if (handler != null)
         {

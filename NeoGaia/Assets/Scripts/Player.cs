@@ -6,7 +6,7 @@ public class Player : Character {
 
 	// Use this for initialization
 	void Start () {
-		
+        GameManager.instance.AddCharacter(this);
 	}
 	
 	// Update is called once per frame

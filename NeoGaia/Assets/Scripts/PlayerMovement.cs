@@ -36,10 +36,13 @@ public class PlayerMovement : MonoBehaviour {
 
     private void ManageInputs()
     {
-        ManageMove();
-        ManageJump();
-        ManageInteraction();
-        LimitVelocity();
+        if (_player.canMove)
+        {
+            ManageMove();
+            ManageJump();
+            ManageInteraction();
+            LimitVelocity();
+        }
     }
 
     private void ManageMove()
