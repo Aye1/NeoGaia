@@ -41,7 +41,7 @@ public class DialogBox : MonoBehaviour {
         ManageInput();
 	}
 
-    public void Init(DialogLine[] text, Sprite sprite)
+    public void Init(DialogLine[] text)
     {
         textMesh.text = "";
         _allDialogLines = text;
