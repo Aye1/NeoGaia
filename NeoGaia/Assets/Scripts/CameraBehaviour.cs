@@ -15,6 +15,7 @@ public class CameraBehaviour : MonoBehaviour {
 
     [Header("Debug settings")]
     public bool displayPosInCamera = false;
+    public bool displayCameraSize = false;
 
     #region Accessors
     // Width of the camera
@@ -87,10 +88,14 @@ public class CameraBehaviour : MonoBehaviour {
         {
             Debug.Log("Pos: " + posInCamera);
         }
+        if (displayCameraSize)
+        {
+            Debug.Log("Camera: " + Width + "x" + Height);
+        }
         
         // Distance to trigger the camera animation
-        float offsetX = Height*0.4f;
-        float offSetY = Width*0.4f;
+        float offsetX = Width*0.3f;
+        float offSetY = Height*0.3f;
 
         // Offset to have more space above the player than below
         float floorOffset = 2f;
@@ -99,11 +104,13 @@ public class CameraBehaviour : MonoBehaviour {
         Vector3 destination = camPos;
         if (posInCamera.y + offSetY >= Height || posInCamera.y - offSetY <= 0)
         {
-            destination.y = player.transform.position.y + floorOffset;
+            float direction = posInCamera.y > Height / 2.0f ? 1.0f : -1.0f;
+            destination.y = player.transform.position.y + floorOffset + 2.0f/3.0f * Height * direction;
         }
         if (posInCamera.x + offsetX >= Width || posInCamera.x - offsetX <= 0)
         {
-            destination.x = player.transform.position.x;
+            float direction = posInCamera.x > Width / 2.0f ? 1.0f : -1.0f;
+            destination.x = player.transform.position.x + 2.0f/3.0f * Width * direction ;
         }
         Vector3 velocity = Vector3.zero;
         _camera.transform.position = Vector3.SmoothDamp(camPos, destination, ref velocity, GetSmoothTime(posInCamera));
@@ -111,7 +118,7 @@ public class CameraBehaviour : MonoBehaviour {
 
     private float GetSmoothTime(Vector3 posInCamera)
     {
-        float defaultSmoothTime = 0.2f;
+        float defaultSmoothTime = 1.0f;
         //float fastSmoothTime = 0.01f;
         //float velocityThreshold = 20.0f;
 

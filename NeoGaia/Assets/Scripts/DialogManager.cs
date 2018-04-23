@@ -27,7 +27,6 @@ public class DialogManager : MonoBehaviour {
     {
         if (!isDialogOpen)
         {
-            //DialogBox dialog = GameObjectProvider.instance.dialogBox;
             DialogBox currentDialog = Instantiate(dialog);
             currentDialog.Init(dialogLines);
             isDialogOpen = true;
