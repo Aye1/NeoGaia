@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+<<<<<<< HEAD
+=======
+  - CameraBlocker
+>>>>>>> e8c57dd88d54554253b0dd98b4973330d15dca6b
   layers:
   - Default
   - TransparentFX
