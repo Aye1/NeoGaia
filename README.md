@@ -1,2 +1,0 @@
-# NeoGaia
-NeoGaia project.
