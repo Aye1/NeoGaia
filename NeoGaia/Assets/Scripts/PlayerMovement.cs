@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour {
     public int maxJumpsAvailable = 1;
     public int jumpsAvailable = 1;
     public float maxVelocity = 18.0f;
+    public float lastDirectionX = 0.0f;
+    public bool crouching = false;
 
     private IInteractable _currentInteractable = null;
 
@@ -39,6 +41,7 @@ public class PlayerMovement : MonoBehaviour {
         if (_player.canMove)
         {
             ManageMove();
+            ManageCrouch();
             ManageJump();
             ManageInteraction();
             LimitVelocity();
@@ -52,11 +55,14 @@ public class PlayerMovement : MonoBehaviour {
         if (Input.GetKey(KeyCode.RightArrow))
         {
             dirX = 1.0f;
+            lastDirectionX = dirX;
         }
         else if (Input.GetKey(KeyCode.LeftArrow))
         {
             dirX = -1.0f;
+            lastDirectionX = dirX;
         }
+
 
         Vector3 pos = transform.position;
         float moveX = dirX * speed;
@@ -74,10 +80,21 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
 
+    private void ManageCrouch()
+    {
+        if (Input.GetKey(KeyCode.DownArrow))
+        {
+            crouching = true;
+        } else
+        {
+            crouching = false;
+        }
+    }
+
     private void ManageInteraction()
     {
         // Can interact
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             Debug.Log("Interact button pushed");
             if (_currentInteractable != null)

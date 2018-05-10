@@ -11,7 +11,7 @@ public class CameraBehaviour : MonoBehaviour {
     private int _width;
     private int _height;
 
-    public Player player;
+    public PlayerMovement player;
 
     [Header("Debug settings")]
     public bool displayPosInCamera = false;
@@ -76,7 +76,25 @@ public class CameraBehaviour : MonoBehaviour {
     {
         Width = Screen.width;
         Height = Screen.height;
-        SmoothFollow();
+        //SmoothFollow();
+        BasicFollow();
+    }
+
+    private void BasicFollow()
+    {
+        float offsetX = 5.0f;
+        float offsetY = 2.0f;
+        Vector3 camPos = _camera.transform.position;
+        Vector3 playerPos = player.transform.position;
+        float crouchOffset = player.crouching ? -1.0f : 0.0f;
+
+        Vector3 newPosition = new Vector3(playerPos.x + player.lastDirectionX * offsetX, 
+            playerPos.y + crouchOffset * offsetY,
+            camPos.z);
+
+        Vector3 velocity = Vector3.zero;
+        _camera.transform.position = Vector3.SmoothDamp(camPos, newPosition, ref velocity, 0.1f);
+        //_camera.transform.position = newPosition;
     }
 
     private void SmoothFollow()

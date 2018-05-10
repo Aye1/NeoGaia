@@ -1,6 +1,7 @@
 # Personal ignores
 NeoGaia/Assets/Psd
 NeoGaia/Assets/Psd.meta
+NeoGaia/Assets/2DGamekit*
 
 NeoGaia/[Ll]ibrary/
 NeoGaia/[Tt]emp/
