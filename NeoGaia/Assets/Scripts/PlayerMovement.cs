@@ -56,17 +56,19 @@ public class PlayerMovement : MonoBehaviour {
         {
             dirX = 1.0f;
             lastDirectionX = dirX;
+            //rb2d.velocity = new Vector2(speed, rb2d.velocity.y);
         }
         else if (Input.GetKey(KeyCode.LeftArrow))
         {
             dirX = -1.0f;
             lastDirectionX = dirX;
+            //rb2d.velocity = new Vector2(-speed, rb2d.velocity.y);
         }
 
 
-        Vector3 pos = transform.position;
-        float moveX = dirX * speed;
-        transform.position = new Vector3(pos.x + moveX, pos.y, pos.z);
+       // Vector3 pos = transform.position;
+       // float moveX = dirX * speed;
+       // transform.position = new Vector3(pos.x + moveX, pos.y, pos.z);
     }
 
     private void ManageJump()

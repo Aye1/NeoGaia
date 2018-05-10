@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour {
         if (instance == null)
         {
             instance = this;
+            _characters = new List<Character>();
         }
         else if (instance != this)
         {
@@ -22,7 +23,6 @@ public class GameManager : MonoBehaviour {
 
     void Start()
     {
-        _characters = new List<Character>();
     }
 
     public void AddCharacter(Character character)
