@@ -192,4 +192,9 @@ public class CameraBehaviour : MonoBehaviour {
             _camera.rect = rect;
         }
     }
+
+    public void OnColliderEnter2D(Collider2D collider)
+    {
+        Debug.Log("Camera colliding");
+    }
 }
